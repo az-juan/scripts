@@ -1,0 +1,14 @@
+.rwxr--r--@ 1.9k juan_i 18 Apr 16:35 arbol_dir.sh
+drwxr-xr-x@    - juan_i 22 Apr 15:31 archivos
+.rwxr--r--@ 1.6k juan_i 20 Apr 12:46 fibonacci.sh
+.rwxr--r--@ 1.7k juan_i 18 Apr 16:14 fibonacci_v2.sh
+.rw-r--r--@  567 juan_i 29 Mar 19:39 flake.lock
+.rw-r--r--@  455 juan_i 29 Mar 19:39 flake.nix
+.rwxr--r--@ 1.0k juan_i 16 Apr 14:27 frec_pal_v2.sh
+.rwxr--r--@  959 juan_i 20 Apr 15:11 impresora.sh
+.rwxr--r--@ 1.2k juan_i 25 Apr 14:37 log_circular.sh
+.rw-r--r--     0 juan_i 25 Apr 14:37 ls.txt
+drwxr-xr-x@    - juan_i 22 Apr 11:04 practicos
+.rwxr--r--@  600 juan_i 18 Apr 16:21 procesos.sh
+.rw-r--r--@  287 juan_i 22 Apr 11:24 README.md
+.rwxr-xr-x@  184 juan_i 20 Apr 15:08 tac.sh

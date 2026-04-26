@@ -1,5 +1,6 @@
 archivos/*
 practicos/*
+diapositivas/*
 
 flake.nix
 flake.lock
