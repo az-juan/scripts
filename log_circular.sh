@@ -1,6 +1,8 @@
 #! /usr/bin/env bash
 set -euo pipefail
 
+# funciona ?
+
 DIR=$1
 T=$2
 L=$3
@@ -15,25 +17,35 @@ if [[ -d "/var/log/$DIR" ]]; then
     cd "/var/log/$DIR"
     for archivo in $(cat < <(ls)); do
         if [[ "$archivo" == *.gz ]]; then
-            echo -e "$archivo ya esta comprimido.\n"
-            continue
+            echo -e "$archivo ya esta comprimido."
         else
             TAMANIO=$(stat "$archivo" | grep -i size | cut -d" " -f4)
             declare -i OCURR=0
-            if [[ $TAMANIO -gt $T ]]; then
-                sudo gzip -k "$archivo"
-                OCURR=$(ls -l | grep -i "$archivo" | wc -l)
-                sudo mv "$archivo.gz" "slot#$(($OCURR))-$archivo.gz"
-                if [[ $OCURR -gt $L ]]; then
-                    sudo rm "$(ls -l | grep -i "$archivo" | head -1 | cut -d" " -f9)"
-                    declare -i IT=1
-                    for i in $(cat < <(ls)); do
-                        sudo mv "$i" "slot#$(($IT))-$archivo.gz"
-                        IT+=1
-                    done
-                fi
+            declare -i TAM_TOTAL=0
+    
+            for i in $(cat < <(ls | grep -i "${archivo}".gz$)); do
+                TAM_TOTAL+=$(stat "$i" | grep -i size | cut -d" " -f4)
+            done
+            echo "tamaño total $TAM_TOTAL"
+            if [[ $((($TAM_TOTAL/1024)+1)) -gt $B ]]; then
+                echo "El tamaño total supera los $B bytes."
             else
-                echo "El archivo es menor que T."
+                if [[ $TAMANIO -gt $T ]]; then
+                    sudo gzip "$archivo"
+                    OCURR=$(ls -l | grep -i ${archivo}.gz$ | wc -l)
+                    sudo mv "${archivo}.gz" "slot#${OCURR}-${archivo}.gz"
+            
+                    if [[ $OCURR -gt $L ]]; then
+                        sudo rm "$(ls -l | grep -i "$archivo" | head -1 | cut -d" " -f9)"
+                        declare -i IT=1
+                        for i in $(cat < <(ls | grep -i "${archivo}".gz$)); do
+                            sudo mv "$i" "slot#${IT}-${archivo}.gz"
+                            IT+=1
+                        done
+                    fi
+                else
+                    echo -e "El archivo es menor que T.\n"
+                fi
             fi
         fi
     done
